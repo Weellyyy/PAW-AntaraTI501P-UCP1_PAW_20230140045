@@ -1,0 +1,71 @@
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<div class="container mt-5">
+  <h1 class="text-center mb-4"><%= title %></h1>
+
+  <% if (tambah) { %>
+
+  <form action="/perpustakaan/tambah" method="POST" class="mb-4">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <input type="text" name="namabuku" class="form-control" placeholder="Nama Buku" required>
+      </div>
+      <div class="form-group col-md-3">
+        <input type="text" name="jenisbuku" class="form-control" placeholder="Jenis Buku" required>
+      </div>
+        <button type="submit" class="btn btn-primary btn-block">Tambah</button>
+      </div>
+    </div>
+  </form>
+  <% } else if (edit && buku.length > 0) { %>
+
+    <form action="/perpustakaan/edit/<%= buku[0].id %>" method="POST" class="mb-4">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <input type="text" name="namabuku" class="form-control" value="<%= buku[0].namabuku %>" required>
+      </div>
+      <div class="form-group col-md-3">
+        <input type="text" name="jenisbuku" class="form-control" value="<%= buku[0].jenisbuku %>" required>
+      </div>
+      <div class="form-group col-md-2">
+        <button type="submit" class="btn btn-success btn-block">Simpan</button>
+      </div>
+    </div>
+  </form>
+  <% } else { %>
+  <a href="/perpustakaan/tambah" class="btn btn-primary mb-3">Tambah Buku</a>
+  <% } %>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>No</th>
+          <th>Nama Buku</th>
+          <th>Jenis Buku</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (buku && buku.length > 0) { %>
+          <% buku.forEach((b, i) => { %>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td><%= b.namabuku %></td>
+              <td><%= b.jenisbuku %></td>
+              <td>
+                <a href="/perpustakaan/edit/<%= b.id %>" class="btn btn-sm btn-warning">Edit</a>
+                <form action="/perpustakaan/delete/<%= b.id %>" method="POST" style="display:inline-block" onsubmit="return confirm('Yakin hapus buku ini?')">
+                  <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr><td colspan="5" class="text-center">Tidak ada data buku.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+  <a href="/" class="btn btn-outline-primary mt-4">🏠 Kembali ke Home</a>
+</div>
