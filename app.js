@@ -22,13 +22,13 @@ app.get("/", (req, res) => {
      });
 });
 
-app.use("/kelolabuku", perpustakaanRoutes);
+app.use("/perpustakaan", perpustakaanRoutes);
 
 app.use((req, res) => {
 	res.status(404).render("index", { title: "404 - Not Found" });
 });
 
-app.use("/kelolabuku/tambah", (req, res) =>{
+app.use("/perpustakaan/tambah", (req, res) =>{
     res.render("kelolabuku", {
         layout: "layouts/main",
         tambah: true
