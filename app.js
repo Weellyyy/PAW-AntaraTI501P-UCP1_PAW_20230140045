@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const methodOverride = require("method-override");
 const expressLayouts = require("express-ejs-layouts");
-const db = require("./database/db");
+// const db = require("./database/db"); // Tidak perlu di sini
 const perpustakaanRoutes = require("./routes/perpustakaan.js");
 
 app.set("view engine", "ejs");
@@ -17,25 +17,25 @@ app.use(methodOverride("_method"));
 app.use(express.static(__dirname + '/public'));
 
 app.get("/", (req, res) => {
-	res.render("index", {
+    res.render("index", {
         layout: "layouts/main",
      });
 });
 
 app.use("/perpustakaan", perpustakaanRoutes);
 
-app.use((req, res) => {
-	res.status(404).render("index", { title: "404 - Not Found" });
+app.get("/kelolabuku", (req, res) => {
+    res.render("kelolabuku", {
+        title: "Kelola Buku",
+        layout: "layouts/main",
+    });
 });
 
-app.use("/perpustakaan/tambah", (req, res) =>{
-    res.render("kelolabuku", {
-        layout: "layouts/main",
-        tambah: true
-    });
+app.use((req, res) => {
+    res.status(404).send("Halaman tidak ditemukan");
 });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-	console.log(`Server running on http://localhost:${port}`);
+    console.log(`Server running on http://localhost:${port}`);
 });
